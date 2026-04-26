@@ -1,0 +1,21 @@
+name: Microsoft Rewards Bot
+
+on:
+  schedule:
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium webdriver-manager
+      - name: Run Bot
+        env:
+          EMAIL: ${{ secrets.MS_EMAIL }}
+          PASSWORD: ${{ secrets.MS_PASSWORD }}
+        run: python rewards_bot.py
